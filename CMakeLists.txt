@@ -96,9 +96,6 @@ ENDIF(CMAKE_COMPILER_IS_GNUCC)
 GET_FILENAME_COMPONENT(source_outer_dir "${PROJECT_SOURCE_DIR}/.." ABSOLUTE)
 GET_FILENAME_COMPONENT(build_outer_dir "${PROJECT_BINARY_DIR}/.." ABSOLUTE)
 
-SET(STAGING_LIBS_DIR "")
-
-
 INCLUDE(FindOpenGL)
 SET(use_opengl OFF)
 IF(OPENGL_FOUND AND QT_QTOPENGL_FOUND)
@@ -108,20 +105,6 @@ ENDIF()
 OPTION(ENABLE_OPENGL "OpenGL may be used for UI acceleration" ${use_opengl})
 
 IF(WIN32)
-        FIND_PATH(
-                DEPS_BUILD_DIR build-qt.bat
-                HINTS "${build_outer_dir}/scantailor-universal-deps-build"
-                DOC "Build directory for Scan Tailor dependencies."
-        )
-        IF(NOT DEPS_BUILD_DIR)
-                MESSAGE(
-                        FATAL_ERROR "The build directory for Scan Tailor dependencies could not be found! "
-                        "You can specify it manually in DEPS_BUILD_DIR variable. Make sure you build the dependencies first!"
-                )
-        ENDIF()
-        SET(STAGING_LIBS_DIR "${DEPS_BUILD_DIR}/staging/libs")
-        INCLUDE("${DEPS_BUILD_DIR}/export-vars.cmake")
-
         IF (NOT QT_SRC_DIR OR NOT EXISTS "${QT_SRC_DIR}")
                 FILE(GLOB qt_dirs1 "${build_outer_dir}/qt-win-*-5.[0-9]*")
                 FILE(GLOB qt_dirs2 "${build_outer_dir}/qt-everywhere-*-5.[0-9]*")
