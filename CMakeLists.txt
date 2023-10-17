@@ -180,36 +180,9 @@ FIND_PACKAGE(ZLIB REQUIRED)
 INCLUDE_DIRECTORIES("${ZLIB_INCLUDE_DIR}")
 LIST(APPEND EXTRA_LIBS ${ZLIB_LIBRARY})
 
-FIND_PATH(
-        PNG_INCLUDE_DIR png.h
-	PATHS /usr/local/include /usr/include
-	HINTS ${PNG_DIR} # PNG_DIR may come from export-vars.cmake
-	DOC "Path to libpng headers."
-)
-IF(NOT PNG_INCLUDE_DIR)
-        MESSAGE(
-                FATAL_ERROR
-                "Could not find libpng headers.\n"
-                "You may need to install a package named libpng12-dev or similarly."
-        )
-ENDIF()
-
+FIND_PACKAGE(PNG REQUIRED)
 INCLUDE_DIRECTORIES("${PNG_INCLUDE_DIR}")
-
-FIND_LIBRARY(
-        PNG_LIBRARY NAMES png libpng.lib
-	PATHS /usr/local/lib /usr/lib
-	HINTS ${STAGING_LIBS_DIR}
-	DOC "Path to png library."
-)
-IF(NOT PNG_LIBRARY)
-        MESSAGE(
-                FATAL_ERROR
-                "Could not find libpng library.\n"
-                "You may need to install a package named libpng12-dev or similarly."
-        )
-ENDIF()
-
+LIST(APPEND EXTRA_LIBS ${PNG_LIBRARY})
 
 FIND_PATH(
         TIFF_INCLUDE_DIR tiff.h
@@ -312,7 +285,7 @@ ENDIF(NOT HAVE_STDINT_H)
 
 ADD_DEFINITIONS(-DBOOST_MULTI_INDEX_DISABLE_SERIALIZATION)
 
-LIST(APPEND EXTRA_LIBS ${TIFF_LIBRARY} ${PNG_LIBRARY} ${CANBERRA_LIBRARIES})
+LIST(APPEND EXTRA_LIBS ${TIFF_LIBRARY} ${CANBERRA_LIBRARIES})
 
 IF (EXIV2_FOUND)
         LIST(APPEND EXTRA_LIBS ${EXIV2_LIBRARY})
