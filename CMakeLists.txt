@@ -104,48 +104,6 @@ IF(OPENGL_FOUND AND QT_QTOPENGL_FOUND)
 ENDIF()
 OPTION(ENABLE_OPENGL "OpenGL may be used for UI acceleration" ${use_opengl})
 
-IF(WIN32)
-        IF (NOT QT_SRC_DIR OR NOT EXISTS "${QT_SRC_DIR}")
-                FILE(GLOB qt_dirs1 "${build_outer_dir}/qt-win-*-5.[0-9]*")
-                FILE(GLOB qt_dirs2 "${build_outer_dir}/qt-everywhere-*-5.[0-9]*")
-                FILE(GLOB qt_dirs3 "${source_outer_dir}/qt-win-*-5.[0-9]*")
-                FILE(GLOB qt_dirs4 "${source_outer_dir}/qt-everywhere-*-5.[0-9]*")
-                FILE(GLOB qt_dirs5 "C:/Qt/Qt5.*/*/Src")
-                FIND_PATH(
-                        QT_SRC_DIR qtbase/qtbase.pro
-                        HINTS ${qt_dirs1} ${qt_dirs2} ${qt_dirs3}
-                        ${qt_dirs4} ${qt_dirs5} dummy_dir
-                        DOC "Path to top-level Qt5 source directory. If you installed a binary version, it will be something like C:\\Qt\\Qt5.0.2\\5.0.2\\Src"
-                )
-        ENDIF()
-
-        IF(NOT QT_SRC_DIR OR NOT EXISTS "${QT_SRC_DIR}")
-                MESSAGE(
-                        FATAL_ERROR "Qt5 could not be found. "
-                        "If it's installed in a non-standard location, specify it QT_SRC_DIR variable."
-                )
-        ENDIF()
-
-        FILE(GLOB qt_possible_prebuilt_dirs "${QT_SRC_DIR}/../*")
-        FIND_PATH(
-                QT_PREBUILT_DIR bin/qmake.exe HINTS ${qt_possible_prebuilt_dirs}
-                DOC "[optional] Installation path of a pre-built version of Qt5. If you installed a binary version, it will be something like C:\\Qt\\Qt5.0.2\\5.0.2\\msvc2012"
-        )
-
-
-        SET(Qt5Core_DIR "${QT_SRC_DIR}/qtbase/lib/cmake/Qt5Core")
-        SET(Qt5Gui_DIR "${QT_SRC_DIR}/qtbase/lib/cmake/Qt5Gui")
-        SET(Qt5Widgets_DIR "${QT_SRC_DIR}/qtbase/lib/cmake/Qt5Widgets")
-        SET(Qt5Xml_DIR "${QT_SRC_DIR}/qtbase/lib/cmake/Qt5Xml")
-        SET(Qt5Network_DIR "${QT_SRC_DIR}/qtbase/lib/cmake/Qt5Network")
-        SET(Qt5OpenGL_DIR "${QT_SRC_DIR}/qtbase/lib/cmake/Qt5OpenGL")
-        IF(QT_PREBUILT_DIR)
-                SET(Qt5LinguistTools_DIR "${QT_PREBUILT_DIR}/lib/cmake/Qt5LinguistTools")
-        ELSE()
-                SET(Qt5LinguistTools_DIR "${QT_SRC_DIR}/qtbase/lib/cmake/Qt5LinguistTools")
-        ENDIF()
-ENDIF()
-
 SET(CMAKE_AUTOMOC ON)
 SET(Qt_MIN_VERSION 5.7.0)
 IF(APPLE)
