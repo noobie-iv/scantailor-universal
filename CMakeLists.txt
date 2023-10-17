@@ -88,6 +88,8 @@ INCLUDE(cmake/UpdateTranslations.cmake)
 INCLUDE(cmake/CopyToBuildDir.cmake)
 INCLUDE(cmake/LibToDLL.cmake)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
+
 ST_SET_DEFAULT_BUILD_TYPE(Release)
 IF(CMAKE_COMPILER_IS_GNUCC)
         ST_SET_DEFAULT_GCC_FLAGS()
@@ -127,53 +129,11 @@ FIND_PACKAGE(JPEG REQUIRED)
 INCLUDE_DIRECTORIES("${JPEG_INCLUDE_DIR}")
 LIST(APPEND EXTRA_LIBS ${JPEG_LIBRARY})
 
-SET (use_openjpeg ON)
-OPTION(ENABLE_OPENJPEG "OpenJPEG library may be used to suppoet JPEG 2000 (.jp2) images." ${use_openjpeg})
-
+OPTION(ENABLE_OPENJPEG "OpenJPEG library may be used to support JPEG 2000 (.jp2) images." ON)
 IF (ENABLE_OPENJPEG)
-
-IF(NOT WIN32)
-FIND_PACKAGE(OpenJPEG QUIET)
-ELSE(NOT WIN32)
-
-FIND_PATH(
-        OPENJPEG_INCLUDE_DIRS openjpeg.h
-        PATHS /usr/local/include /usr/include
-        HINTS ${JPEG2000_DIR} # JPEG2000_DIR may come from export-vars.cmake
-        PATH_SUFFIXES src/lib/openjp2
-        DOC "Path to openjpeg headers."
-)
-IF(NOT OPENJPEG_INCLUDE_DIRS)
-        MESSAGE(
-                "Could not find openjpeg headers.\n"
-                "You may need to install a package openjpeg."
-        )
-ENDIF()
-
-INCLUDE_DIRECTORIES("${OPENJPEG_INCLUDE_DIRS}")
-
-FIND_LIBRARY(
-        OPENJPEG_LIBRARIES openjp2 openjp2.lib
-        PATHS /usr/local/lib /usr/lib
-        HINTS ${STAGING_LIBS_DIR}
-        PATH_SUFFIXES openjp2
-        DOC "Path to openjpeg library."
-)
-
-IF(OPENJPEG_LIBRARIES AND OPENJPEG_INCLUDE_DIRS)
-SET (OpenJPEG_FOUND YES)
-SET (OPENJPEG_MAJOR_VERSION 2)
-ENDIF(OPENJPEG_LIBRARIES AND OPENJPEG_INCLUDE_DIRS)
-
-ENDIF(NOT WIN32)
-
-IF(NOT OpenJPEG_FOUND OR OPENJPEG_MAJOR_VERSION VERSION_LESS 2)
-    message("warning: OpenJPEG library isn't found.\n"
-        "The JPEG 2000 (*.jp2) images support will be disabled.\n"
-        "You may install libopenjp2-7-dev to fix this.\n"
-        "Or disable this massege with -DENABLE_OPENJPEG=OFF")
-    SET(ENABLE_OPENJPEG OFF)
-ENDIF()
+        find_package(OPENJPEG REQUIRED)
+        INCLUDE_DIRECTORIES("${OPENJPEG_INCLUDE_DIR}")
+        LIST(APPEND EXTRA_LIBS ${OPENJPEG_LIBRARY})
 ENDIF(ENABLE_OPENJPEG)
 
 FIND_PACKAGE(ZLIB REQUIRED)
@@ -260,11 +220,6 @@ LIST(APPEND EXTRA_LIBS ${CANBERRA_LIBRARIES})
 IF (EXIV2_FOUND)
         LIST(APPEND EXTRA_LIBS ${EXIV2_LIBRARY})
 ENDIF(EXIV2_FOUND)
-
-IF(ENABLE_OPENJPEG AND OpenJPEG_FOUND)
-   INCLUDE_DIRECTORIES(${OPENJPEG_INCLUDE_DIRS})
-   LIST(APPEND EXTRA_LIBS ${OPENJPEG_LIBRARIES})
-ENDIF()
 
 IF(WIN32)
    LIST(APPEND EXTRA_LIBS "ws2_32.lib")
