@@ -176,35 +176,9 @@ IF(NOT OpenJPEG_FOUND OR OPENJPEG_MAJOR_VERSION VERSION_LESS 2)
 ENDIF()
 ENDIF(ENABLE_OPENJPEG)
 
-FIND_PATH(
-        ZLIB_INCLUDE_DIR zlib.h
-	PATHS /usr/local/include /usr/include
-	HINTS ${ZLIB_DIR} # ZLIB_DIR may come from export-vars.cmake
-	DOC "Path to zlib headers."
-)
-IF(NOT ZLIB_INCLUDE_DIR)
-        MESSAGE(
-                FATAL_ERROR
-                "Could not find zlib headers.\n"
-                "You may need to install a package named zlib1g-dev or similarly."
-        )
-ENDIF()
-
+FIND_PACKAGE(ZLIB REQUIRED)
 INCLUDE_DIRECTORIES("${ZLIB_INCLUDE_DIR}")
-
-FIND_LIBRARY(
-        ZLIB_LIBRARY NAMES z zdll.lib
-	PATHS /usr/local/lib /usr/lib
-	HINTS ${STAGING_LIBS_DIR}
-	DOC "Path to zlib library."
-)
-IF(NOT ZLIB_LIBRARY)
-        MESSAGE(
-                FATAL_ERROR
-                "Could not find zlib library.\n"
-                "You may need to install a package named zlib1g-dev or similarly."
-        )
-ENDIF()
+LIST(APPEND EXTRA_LIBS ${ZLIB_LIBRARY})
 
 FIND_PATH(
         PNG_INCLUDE_DIR png.h
@@ -338,7 +312,7 @@ ENDIF(NOT HAVE_STDINT_H)
 
 ADD_DEFINITIONS(-DBOOST_MULTI_INDEX_DISABLE_SERIALIZATION)
 
-LIST(APPEND EXTRA_LIBS ${TIFF_LIBRARY} ${PNG_LIBRARY} ${ZLIB_LIBRARY} ${CANBERRA_LIBRARIES})
+LIST(APPEND EXTRA_LIBS ${TIFF_LIBRARY} ${PNG_LIBRARY} ${CANBERRA_LIBRARIES})
 
 IF (EXIV2_FOUND)
         LIST(APPEND EXTRA_LIBS ${EXIV2_LIBRARY})
