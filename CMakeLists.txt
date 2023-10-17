@@ -184,42 +184,12 @@ FIND_PACKAGE(PNG REQUIRED)
 INCLUDE_DIRECTORIES("${PNG_INCLUDE_DIR}")
 LIST(APPEND EXTRA_LIBS ${PNG_LIBRARY})
 
-FIND_PATH(
-        TIFF_INCLUDE_DIR tiff.h
-	PATHS /usr/local/include /usr/include
-	HINTS ${TIFF_DIR} # TIFF_DIR may come from export-vars.cmake
-	PATH_SUFFIXES libtiff
-	DOC "Path to libtiff headers."
-)
-IF(NOT TIFF_INCLUDE_DIR)
-        MESSAGE(
-                FATAL_ERROR
-                "Could not find libtiff headers.\n"
-                "You may need to install a package named libtiff4-dev or similarly."
-        )
-ENDIF()
-
+FIND_PACKAGE(TIFF REQUIRED)
 INCLUDE_DIRECTORIES("${TIFF_INCLUDE_DIR}")
-
-FIND_LIBRARY(
-        TIFF_LIBRARY tiff libtiff.lib
-	PATHS /usr/local/lib /usr/lib
-	HINTS ${STAGING_LIBS_DIR}
-	PATH_SUFFIXES libtiff
-	DOC "Path to tiff library."
-)
-IF(NOT TIFF_LIBRARY)
-        MESSAGE(
-                FATAL_ERROR
-                "Could not find libtiff library.\n"
-                "You may need to install a package named libtiff4-dev or similarly."
-        )
-ENDIF()
-
+LIST(APPEND EXTRA_LIBS ${TIFF_LIBRARY})
 IF(WIN32)
         ADD_DEFINITIONS(-DUSE_LIBTIFF_DLL)
 ENDIF()
-
 
 IF(WIN32)
         SET(Boost_USE_STATIC_LIBS ON)
@@ -285,7 +255,7 @@ ENDIF(NOT HAVE_STDINT_H)
 
 ADD_DEFINITIONS(-DBOOST_MULTI_INDEX_DISABLE_SERIALIZATION)
 
-LIST(APPEND EXTRA_LIBS ${TIFF_LIBRARY} ${CANBERRA_LIBRARIES})
+LIST(APPEND EXTRA_LIBS ${CANBERRA_LIBRARIES})
 
 IF (EXIV2_FOUND)
         LIST(APPEND EXTRA_LIBS ${EXIV2_LIBRARY})
