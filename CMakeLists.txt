@@ -121,35 +121,11 @@ IF(ENABLE_OPENGL)
         FIND_PACKAGE(Qt5OpenGL ${Qt_MIN_VERSION} REQUIRED)
 ENDIF()
 
-FIND_PATH(
-        JPEG_INCLUDE_DIR jpeglib.h
-	PATHS /usr/local/include /usr/include
-	HINTS ${JPEG_DIR} # JPEG_DIR may come from export-vars.cmake
-	DOC "Path to libjpeg headers."
-)
-IF(NOT JPEG_INCLUDE_DIR)
-        MESSAGE(
-                FATAL_ERROR
-                "Could not find jpeg headers.\n"
-		"You may need to install a package named libjpeg62-dev or similarly."
-        )
-ENDIF()
+SET(EXTRA_LIBS "")
 
+FIND_PACKAGE(JPEG REQUIRED)
 INCLUDE_DIRECTORIES("${JPEG_INCLUDE_DIR}")
-
-FIND_LIBRARY(
-        JPEG_LIBRARY NAMES jpeg libjpeg.lib
-	PATHS /usr/local/lib /usr/lib
-	HINTS ${STAGING_LIBS_DIR}
-	DOC "Path to jpeg library."
-)
-IF(NOT JPEG_LIBRARY)
-        MESSAGE(
-                FATAL_ERROR
-                "Could not find jpeg library.\n"
-                "You may need to install a package named libjpeg62-dev or similarly."
-        )
-ENDIF()
+LIST(APPEND EXTRA_LIBS ${JPEG_LIBRARY})
 
 SET (use_openjpeg ON)
 OPTION(ENABLE_OPENJPEG "OpenJPEG library may be used to suppoet JPEG 2000 (.jp2) images." ${use_openjpeg})
@@ -330,8 +306,6 @@ IF (EXIV2_FOUND)
         INCLUDE_DIRECTORIES("${EXIV2_INCLUDE_DIR}")
 ENDIF(EXIV2_FOUND)
 
-SET(EXTRA_LIBS "")
-
 IF(UNIX)
         FindPthreads()
 	IF(PTHREADS_FOUND)
@@ -364,7 +338,7 @@ ENDIF(NOT HAVE_STDINT_H)
 
 ADD_DEFINITIONS(-DBOOST_MULTI_INDEX_DISABLE_SERIALIZATION)
 
-LIST(APPEND EXTRA_LIBS ${TIFF_LIBRARY} ${PNG_LIBRARY} ${ZLIB_LIBRARY} ${JPEG_LIBRARY} ${CANBERRA_LIBRARIES})
+LIST(APPEND EXTRA_LIBS ${TIFF_LIBRARY} ${PNG_LIBRARY} ${ZLIB_LIBRARY} ${CANBERRA_LIBRARIES})
 
 IF (EXIV2_FOUND)
         LIST(APPEND EXTRA_LIBS ${EXIV2_LIBRARY})
