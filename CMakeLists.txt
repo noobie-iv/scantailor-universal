@@ -156,19 +156,13 @@ ELSE(WIN32)
         ADD_DEFINITIONS(-DBOOST_TEST_DYN_LINK)
 ENDIF(WIN32)
 
-SET(Boost_USE_MULTITHREADED ON)
-FIND_PACKAGE(Boost 1.35.0 COMPONENTS unit_test_framework prg_exec_monitor)
-IF(NOT Boost_FOUND)
-        MESSAGE(
-                FATAL_ERROR
-                "Could not find boost headers or libraries. "
-                "You may need to install a package named libboost1.35-dev or similarly. "
-                "Hint: create a Boost_DEBUG variable in cmake and set it to YES."
-        )
-ENDIF(NOT Boost_FOUND)
+ADD_DEFINITIONS(-DBOOST_MULTI_INDEX_DISABLE_SERIALIZATION)
 
+SET(Boost_USE_MULTITHREADED ON)
+FIND_PACKAGE(Boost 1.35.0 COMPONENTS unit_test_framework prg_exec_monitor REQUIRED)
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
+
 
 find_package(OpenMP)
 if (OPENMP_FOUND)
@@ -215,7 +209,6 @@ ELSE(NOT HAVE_STDINT_H)
         FILE(REMOVE "${CMAKE_CURRENT_BINARY_DIR}/stdint.h")
 ENDIF(NOT HAVE_STDINT_H)
 
-ADD_DEFINITIONS(-DBOOST_MULTI_INDEX_DISABLE_SERIALIZATION)
 
 LIST(APPEND EXTRA_LIBS ${CANBERRA_LIBRARIES})
 
