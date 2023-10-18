@@ -278,6 +278,7 @@ INCLUDE(CPack)
 IF(WIN32)
         # Copy some DLLs to the staging dir.
 
+        # Qt
         SET(
                 qt5_libs
                 ${Qt5Widgets_LIBRARIES} ${Qt5Gui_LIBRARIES}
@@ -293,22 +294,11 @@ IF(WIN32)
                 COPY_TO_BUILD_DIR("${release_loc}" CONFIGURATIONS Release MinSizeRel RelWithDebInfo)
         ENDFOREACH()
 
-        SET(DLL_DIR "${QT_SRC_DIR}/qtbase/bin")
-        COPY_TO_BUILD_DIR(
-                "${DLL_DIR}/libpng.dll" "${DLL_DIR}/libjpeg.dll"
-                "${DLL_DIR}/libtiff.dll" "${DLL_DIR}/zdll.dll"
-        )
-
-IF(ENABLE_OPENJPEG AND OpenJPEG_FOUND)
-        COPY_TO_BUILD_DIR( "${DLL_DIR}/openjp2.dll" )
-ENDIF(ENABLE_OPENJPEG AND OpenJPEG_FOUND)
-
-IF(EXIV2_FOUND)
-        COPY_TO_BUILD_DIR( "${DLL_DIR}/exiv2.dll" )
-ENDIF(EXIV2_FOUND)
-
         # Qt's plugins.
-        SET(PLUGINS_DIR "${QT_SRC_DIR}/qtbase/plugins")
+        CMAKE_PATH(SET Qt5_DIR NORMALIZE "${Qt5Core_DIR}/../../..")
+        CMAKE_PATH(APPEND Qt5_DIR "plugins" OUTPUT_VARIABLE PLUGINS_DIR)
+
+        # system plugin
         COPY_TO_BUILD_DIR(
                 "${PLUGINS_DIR}/platforms/qwindows.dll" SUBDIR platforms
                 CONFIGURATIONS Release MinSizeRel RelWithDebInfo
@@ -317,6 +307,48 @@ ENDIF(EXIV2_FOUND)
                 "${PLUGINS_DIR}/platforms/qwindowsd.dll" SUBDIR platforms
                 CONFIGURATIONS Debug
         )
+
+        # style plugin
+        COPY_TO_BUILD_DIR(
+                "${PLUGINS_DIR}/styles/qwindowsvistastyle.dll" SUBDIR styles
+                CONFIGURATIONS Release MinSizeRel RelWithDebInfo
+        )
+        COPY_TO_BUILD_DIR(
+                "${PLUGINS_DIR}/styles/qwindowsvistastyled.dll" SUBDIR styles
+                CONFIGURATIONS Debug
+        )        
+        
+        # accessibility plugin
+        IF (Qt5Widgets_VERSION VERSION_LESS 5.4.0)
+        COPY_TO_BUILD_DIR(
+                "${PLUGINS_DIR}/accessible/qtaccessiblewidgets.dll" SUBDIR accessible
+                CONFIGURATIONS Release MinSizeRel RelWithDebInfo
+        )
+        COPY_TO_BUILD_DIR(
+                "${PLUGINS_DIR}/accessible/qtaccessiblewidgetsd.dll" SUBDIR accessible
+                CONFIGURATIONS Debug
+        )
+        ENDIF()
+
+        # image format plugins
+        COPY_TO_BUILD_DIR(
+                "${PLUGINS_DIR}/imageformats/qjpeg.dll" SUBDIR imageformats
+                CONFIGURATIONS Release MinSizeRel RelWithDebInfo
+        )
+        COPY_TO_BUILD_DIR(
+                "${PLUGINS_DIR}/imageformats/qjpegd.dll" SUBDIR imageformats
+                CONFIGURATIONS Debug
+        )
+
+        COPY_TO_BUILD_DIR(
+                "${PLUGINS_DIR}/imageformats/qtiff.dll" SUBDIR imageformats
+                CONFIGURATIONS Release MinSizeRel RelWithDebInfo
+        )
+        COPY_TO_BUILD_DIR(
+                "${PLUGINS_DIR}/imageformats/qtiffd.dll" SUBDIR imageformats
+                CONFIGURATIONS Debug
+        )
+
         # required to display images in stylesheets
         COPY_TO_BUILD_DIR(
                 "${PLUGINS_DIR}/imageformats/qico.dll" SUBDIR imageformats
@@ -326,6 +358,7 @@ ENDIF(EXIV2_FOUND)
                 "${PLUGINS_DIR}/imageformats/qicod.dll" SUBDIR imageformats
                 CONFIGURATIONS Debug
         )
+
         COPY_TO_BUILD_DIR(
                 "${PLUGINS_DIR}/imageformats/qsvg.dll" SUBDIR imageformats
                 CONFIGURATIONS Release MinSizeRel RelWithDebInfo
@@ -334,25 +367,87 @@ ENDIF(EXIV2_FOUND)
                 "${PLUGINS_DIR}/imageformats/qsvgd.dll" SUBDIR imageformats
                 CONFIGURATIONS Debug
         )
-#        COPY_TO_BUILD_DIR(
-#                "${PLUGINS_DIR}/iconengines/qsvgicon.dll" SUBDIR iconengines
-#                CONFIGURATIONS Release MinSizeRel RelWithDebInfo
-#        )
-#        COPY_TO_BUILD_DIR(
-#                "${PLUGINS_DIR}/iconengines/qsvgicond.dll" SUBDIR iconengines
-#                CONFIGURATIONS Debug
-#        )
 
-    if (Qt5Widgets_VERSION VERSION_LESS 5.4.0)
         COPY_TO_BUILD_DIR(
-                "${PLUGINS_DIR}/accessible/qtaccessiblewidgets.dll" SUBDIR accessible
+                "${PLUGINS_DIR}/iconengines/qsvgicon.dll" SUBDIR iconengines
                 CONFIGURATIONS Release MinSizeRel RelWithDebInfo
         )
         COPY_TO_BUILD_DIR(
-                "${PLUGINS_DIR}/accessible/qtaccessiblewidgetsd.dll" SUBDIR accessible
+                "${PLUGINS_DIR}/iconengines/qsvgicond.dll" SUBDIR iconengines
                 CONFIGURATIONS Debug
         )
-    endif()
+
+        # Dependencies
+
+        # libpng
+        FIND_FILE(LIBPNG_DLL
+                NAMES libpng.dll libpng16.dll
+                PATHS ${CMAKE_PREFIX_PATH}
+                PATH_SUFFIXES bin lib
+                NO_DEFAULT_PATH)
+        IF(NOT LIBPNG_DLL)
+                MESSAGE(SEND_ERROR "Could not find LIBPNG dll. You may specify it manually.")
+        ENDIF()
+        COPY_TO_BUILD_DIR("${LIBPNG_DLL}")
+
+        # libjpeg
+        FIND_FILE(LIBJPEG_DLL
+                NAMES libjpeg.dll jpeg.dll jpeg62.dll
+                PATHS ${CMAKE_PREFIX_PATH}
+                PATH_SUFFIXES bin lib
+                NO_DEFAULT_PATH)
+        IF(NOT LIBJPEG_DLL)
+                MESSAGE(SEND_ERROR "Could not find LIBJPEG dll. You may specify it manually.")
+        ENDIF()
+        COPY_TO_BUILD_DIR("${LIBJPEG_DLL}")
+
+        # libtigg
+        FIND_FILE(LIBTIFF_DLL
+                NAMES libtiff.dll tiff.dll
+                PATHS ${CMAKE_PREFIX_PATH}
+                PATH_SUFFIXES bin lib
+                NO_DEFAULT_PATH)
+        IF(NOT LIBTIFF_DLL)
+                MESSAGE(SEND_ERROR "Could not find LIBTIFF dll. You may specify it manually.")
+        ENDIF()
+        COPY_TO_BUILD_DIR("${LIBTIFF_DLL}")
+
+        # zlib
+        FIND_FILE(ZLIB_DLL
+                NAMES zdll.dll zlib.dll zlib1.dll z.dll
+                PATHS ${CMAKE_PREFIX_PATH}
+                PATH_SUFFIXES bin lib
+                NO_DEFAULT_PATH)
+        IF(NOT ZLIB_DLL)
+                MESSAGE(SEND_ERROR "Could not find ZLIB dll. You may specify it manually.")
+        ENDIF()
+        COPY_TO_BUILD_DIR("${ZLIB_DLL}")
+
+        # openjpeg
+        IF(ENABLE_OPENJPEG)
+                FIND_FILE(OPENJPEG_DLL
+                        NAMES openjp2.dll
+                        PATHS ${CMAKE_PREFIX_PATH}
+                        PATH_SUFFIXES bin lib
+                        NO_DEFAULT_PATH)
+                IF(NOT OPENJPEG_DLL)
+                        MESSAGE(SEND_ERROR "Could not find OPENJPEG dll. You may specify it manually.")
+                ENDIF()
+                COPY_TO_BUILD_DIR( "${OPENJPEG_DLL}")
+        ENDIF()
+
+        # exiv
+        IF(EXIV2_FOUND)
+                FIND_FILE(EXIV2_DLL
+                        NAMES exiv2.dll
+                        PATHS ${CMAKE_PREFIX_PATH}
+                        PATH_SUFFIXES bin lib
+                        NO_DEFAULT_PATH)
+                IF(NOT EXIV2_DLL)
+                        MESSAGE(SEND_ERROR "Could not find EXIV2 dll. You may specify it manually.")
+                ENDIF()
+                COPY_TO_BUILD_DIR( "${EXIV2_DLL}")
+        ENDIF()
 
         # Generate the target that will actually do the copying.
         GENERATE_COPY_TO_BUILD_DIR_TARGET(copy_to_build_dir)
