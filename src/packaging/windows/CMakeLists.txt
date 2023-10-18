@@ -64,7 +64,7 @@ IF(ENABLE_CRASH_REPORTER)
 	ADD_DEPENDENCIES(prepare_staging_dir CrashReporter)
 ENDIF()
 
-SET(extra_deps scantailor compile_translations)
+SET(extra_deps scantailor-universal compile_translations)
 
 SET(DUMP_SYMBOLS_COMMANDS "")
 IF(ENABLE_CRASH_REPORTER)
