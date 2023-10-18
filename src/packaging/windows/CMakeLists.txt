@@ -92,7 +92,7 @@ CONFIGURE_FILE(
 
 SET(
 	scantailor_nsi_command
-	OUTPUT "${CMAKE_BINARY_DIR}/scantailor.nsi"
+	OUTPUT "${CMAKE_BINARY_DIR}/src/packaging/windows/scantailor.nsi"
 	COMMAND "${CMAKE_COMMAND}" "-DCFG=$<CONFIGURATION>"
 )
 IF(ENABLE_CRASH_REPORTER)
@@ -114,8 +114,8 @@ ADD_CUSTOM_COMMAND(
 	OUTPUT "${INSTALLER_FILENAME}"
 	${DUMP_SYMBOLS_COMMANDS}
 	COMMAND "${MAKENSIS_EXE}" /V2 scantailor.nsi
-	WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
-	MAIN_DEPENDENCY "${CMAKE_BINARY_DIR}/scantailor.nsi"
+	WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/src/packaging/windows"
+	MAIN_DEPENDENCY "${CMAKE_BINARY_DIR}/src/packaging/windows/scantailor.nsi"
 	DEPENDS ${extra_deps}
 	VERBATIM
 )
