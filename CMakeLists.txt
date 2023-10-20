@@ -82,10 +82,7 @@ INCLUDE(cmake/FindCanberra.cmake)
 ENDIF(UNIX AND NOT APPLE)
 INCLUDE(cmake/SetDefaultBuildType.cmake)
 INCLUDE(cmake/SetDefaultGccFlags.cmake)
-INCLUDE(cmake/ToNativePath.cmake)
 INCLUDE(cmake/UpdateTranslations.cmake)
-INCLUDE(cmake/CopyToBuildDir.cmake)
-INCLUDE(cmake/LibToDLL.cmake)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
@@ -249,15 +246,6 @@ IF(NOT WIN32 AND NOT APPLE)
         INSTALL(FILES debian/scantailor-universal.svg DESTINATION "${CMAKE_INSTALL_PREFIX}/share/pixmaps/")
         INSTALL(FILES debian/scantailor-universal.desktop DESTINATION "${CMAKE_INSTALL_PREFIX}/share/applications/")
 ENDIF(NOT WIN32 AND NOT APPLE)
-
-# uninstall target
-configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/cmake/cmake_uninstall.cmake"
-    IMMEDIATE @ONLY)
-
-add_custom_target(uninstall
-    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
 
 IF(WIN32)
         # Install Runtime
