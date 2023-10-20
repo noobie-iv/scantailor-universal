@@ -380,7 +380,7 @@ IF(WIN32)
         ENDIF()
 
         # Install exiv
-        IF(EXIV2_FOUND)
+        IF(ENABLE_EXIV2)
                 FIND_FILE(EXIV2_DLL
                         NAMES exiv2.dll
                         PATHS ${CMAKE_PREFIX_PATH}
