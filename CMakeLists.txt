@@ -243,8 +243,8 @@ ADD_SUBDIRECTORY(src)
 
 
 IF(NOT WIN32 AND NOT APPLE)
-        INSTALL(FILES debian/scantailor-universal.svg DESTINATION "${CMAKE_INSTALL_PREFIX}/share/pixmaps/")
-        INSTALL(FILES debian/scantailor-universal.desktop DESTINATION "${CMAKE_INSTALL_PREFIX}/share/applications/")
+        INSTALL(FILES debian/scantailor-universal.svg DESTINATION "share/pixmaps/")
+        INSTALL(FILES debian/scantailor-universal.desktop DESTINATION "share/applications/")
 ENDIF(NOT WIN32 AND NOT APPLE)
 
 IF(WIN32)
@@ -381,7 +381,7 @@ IF(WIN32)
         ENDIF()
 ELSEIF(APPLE)
 ELSE()
-        INSTALL(DIRECTORY "${CMAKE_SOURCE_DIR}/src/stylesheets" DESTINATION "${CMAKE_INSTALL_PREFIX}/share/scantailor-universal")
+        INSTALL(DIRECTORY "${CMAKE_SOURCE_DIR}/src/stylesheets" DESTINATION "share/scantailor-universal")
 ENDIF(WIN32)
 
 SET(CPACK_PACKAGE_NAME "scantailor-universal")
@@ -419,5 +419,9 @@ SET(CPACK_SOURCE_IGNORE_FILES
         "/doxygen/"
         "${CMAKE_BINARY_DIR}"
 )
+
+IF(NOT WIN32 AND NOT APPLE)
+        SET(CPACK_PACKAGING_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX})
+ENDIF()
 
 INCLUDE(CPack)
