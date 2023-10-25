@@ -382,6 +382,20 @@ IF(WIN32)
 ELSEIF(APPLE)
 ELSE()
         INSTALL(DIRECTORY "${CMAKE_SOURCE_DIR}/src/stylesheets" DESTINATION "share/scantailor-universal")
+
+        FIND_PROGRAM(GZIP gzip REQUIRED)
+        EXECUTE_PROCESS(
+                COMMAND "${GZIP}" "-9n"
+                WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
+                INPUT_FILE "${CMAKE_SOURCE_DIR}/debian/changelog"
+                OUTPUT_FILE "changelog.gz"
+                RESULT_VARIABLE COMMAND_ERROR)
+        IF(COMMAND_ERROR)
+                MESSAGE(FATAL_ERROR "Could not gzip changelog")
+        ENDIF()
+
+        INSTALL(FILES "${CMAKE_BINARY_DIR}/changelog.gz"     DESTINATION "share/doc/scantailor-universal")
+        INSTALL(FILES "${CMAKE_SOURCE_DIR}/debian/copyright" DESTINATION "share/doc/scantailor-universal")
 ENDIF(WIN32)
 
 SET(CPACK_PACKAGE_NAME "scantailor-universal")
@@ -391,9 +405,14 @@ STRING(REGEX
 SET(CPACK_PACKAGE_VERSION_MAJOR ${CMAKE_MATCH_1})
 SET(CPACK_PACKAGE_VERSION_MINOR ${CMAKE_MATCH_2})
 SET(CPACK_PACKAGE_VERSION_PATCH ${CMAKE_MATCH_3})
+SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "trufanov-nok <trufanovan@gmail.com>")
 SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/GPL3.txt")
 SET(CPACK_PACKAGE_EXECUTABLES "scantailor-universal;${CMAKE_PROJECT_NAME} ${VERSION}")
 SET(CPACK_CREATE_DESKTOP_LINKS "scantailor-universal")
+SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY 
+        "Alternative version of ScanTailor: interactive post-processing tool for scanned pages"
+)
+SET(CPACK_STRIP_FILES YES)
 
 IF(WIN32)
         SET(CPACK_SOURCE_GENERATOR ZIP)
@@ -407,6 +426,19 @@ IF(WIN32)
         SET(CPACK_NSIS_PACKAGE_NAME "${CMAKE_PROJECT_NAME}")
         SET(CPACK_NSIS_INSTALLED_ICON_NAME "scantailor-universal.exe")
         SET(CPACK_NSIS_EXECUTABLES_DIRECTORY .)
+ELSEIF(APPLE)
+ELSE()
+        SET(CPACK_DEBIAN_PACKAGE_DESCRIPTION 
+                "Scan Tailor is an interactive post-processing tool for scanned pages.\n"
+                " It performs operations such as page splitting, deskewing, adding/removing\n"
+                " borders, and others. You give it raw scans, and you get pages ready to be\n"
+                " printed or assembled into a PDF or DJVU file. Scanning, optical character\n"
+                " recognition, and assembling multi-page documents are out of scope of this\n"
+                " project.")
+        STRING(REPLACE ";" "" CPACK_DEBIAN_PACKAGE_DESCRIPTION ${CPACK_DEBIAN_PACKAGE_DESCRIPTION})
+        SET(CPACK_DEBIAN_PACKAGE_SECTION graphics)
+        SET(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+        SET(CPACK_DEBIAN_PACKAGE_HOMEPAGE "https://github.com/trufanov-nok/scantailor-universal/")
 ENDIF()
 
 SET(CPACK_SOURCE_IGNORE_FILES
