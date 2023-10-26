@@ -1,26 +1,163 @@
-We switched on building deb packets for Linux according to Ubuntu instructions.
-In particular:
-https://packaging.ubuntu.com/html/getting-set-up.html
-https://packaging.ubuntu.com/html/packaging-new-software.html
- 
-Deb packets are supposed to be published on launchpad: https://launchpad.net/~truf/+archive/ubuntu/scantailor-universal
- 
-You can update your system with packages from this untrusted PPA by adding ppa:truf/scantailor-universal to your system's Software Sources:
+# Ho to build the Linux version of Scan Tailor
 
-sudo add-apt-repository ppa:truf/scantailor-universal
-sudo apt-get update
+## Install Prerequisites
 
-If you want to build deb packet by himself you may follow instructions.
-I'm leaving some key steps here just as a reminder for myself:
+First, install the following software.
+Unless stated otherwise, take the latest stable version.
 
-bzr dh-make scantailor-universal 0.2.9 scantailor-universal-0.2.9.tar.gz
-cd scantailor-universal/debian/
-rm *.ex *.EX README.* *.docs
-cd ..
-bzr builddeb --  -us -uc 
-bzr builddeb -S
-cd ../build-area/
-pbuilder-dist bionic build scantailor-universal_0.2.9-0ubuntu1.dsc
-gpg --list-secret-keys
-debsign -k 2B79FA6A519BF20289519BBCA2F3EBCE5C719A67 scantailor-universal_0.2.9-0ubuntu1_source.changes
-dput  ppa:truf/scantailor-universal scantailor-universal_0.2.9-0ubuntu1_source.changes
+Here are the versions with which the 2023 release was built on ubuntu-20.04.6:
+
+### Required software
+
+1. **Base build tools**
+
+    ~~~ text
+    sudo apt install build-essential
+    ~~~
+
+2. **CMake**
+
+    ~~~ text
+    sudo apt install cmake
+    ~~~
+
+3. **Boost**
+
+    ~~~ text
+    sudo apt install libboost1.71-dev
+    sudo apt install libboost-test1.71-dev
+    ~~~
+
+4. **Qt5**
+
+    ~~~ text
+    sudo apt install qtbase5-dev
+    sudo apt install qttools5-dev
+    sudo apt install libqt5svg5-dev
+    ~~~
+
+5. **zlib**
+
+    ~~~ text
+   sudo apt install zlib1g-dev
+    ~~~
+
+6. **libjpeg**
+
+    ~~~ text
+    sudo apt install libjpeg-dev
+    ~~~
+
+7. **libpng**
+
+    ~~~ text
+    sudo apt install libpng-dev
+    ~~~
+
+8. **libtiff**
+
+    ~~~ text
+    sudo apt install libtiff-dev
+    ~~~
+
+9. **libcanberra**
+
+    ~~~ text
+    sudo apt install libcanberra-dev
+    ~~~
+
+### Optional software
+
+1. **OpenJPEG**
+
+    ~~~ text
+    sudo apt install libopenjp2-7-dev
+    ~~~
+
+2. **Exiv2**
+
+    ~~~ text
+    sudo apt install libexiv2-dev
+    ~~~
+
+3. **CMake GUI**
+
+    ~~~ text
+    sudo apt install cmake-qt-gui
+    ~~~
+
+## Build Scan Tailor
+
+### Create a build directory
+
+Goto /scantailor directory.
+
+Unpack scantailor archive to /src subdirectory.
+
+You should get the following directory structure:
+
+~~~ text
+scantailor/
+ └─ src/
+     ├─ cmake/
+     ├─ debian/
+     ├─ src/
+     ... 
+     ├─ CMakeLists.txt
+     ...
+~~~
+
+From /scantailor directory run commands:
+
+### Configure
+
+Configure if optional libraries were installed:
+
+~~~ text
+cmake -S ./src -B ./build -DENABLE_EXIV2:BOOL=ON -DENABLE_OPENJPEG:BOOL=ON
+~~~
+
+Configure if optional libraries were not installed:
+
+~~~ text
+cmake -S ./src -B ./build -DENABLE_EXIV2:BOOL=OFF -DENABLE_OPENJPEG:BOOL=OFF
+~~~
+
+You can also configure build using GUI if it is installed:
+
+~~~ text
+cmake-gui
+~~~
+
+### Build
+
+~~~ text
+cmake --build ./build --config Release --target scantailor-universal --parallel 4
+cmake --build ./build --config Release --target scantailor-universal-cli --parallel 4
+~~~
+
+### Build installation package
+
+You can create a deb installation package:
+
+~~~ text
+cpack -G DEB --config ./build/CPackConfig.cmake -B $(pwd)/pkg
+~~~
+
+When finished, package will be located in the /pkg directory.
+
+### Install
+
+You can also install the program directly:
+
+~~~ text
+cmake --build ./build --config Release --target install
+~~~
+
+### Build source packages
+
+~~~ text
+cpack -G "TGZ;TXZ" --config ./build/CPackSourceConfig.cmake -B $(pwd)/pkg
+~~~
+
+When finished, source archives will be located in the /pkg directory.
