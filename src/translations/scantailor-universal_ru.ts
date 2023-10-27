@@ -2899,17 +2899,20 @@ In case sensitivity parameter is 100% the picture detection algorithm looks for 
     <message>
         <location filename="../app/ui/SettingsDialog.ui" line="4089"/>
         <source>Try to correct auto distortion model if too skewed</source>
-        <translation type="unfinished">Попытаться исправить слишком перекошенную автоматическую модель искажений</translation>
+        <translation type="unfinished">Попытаться исправить слишком перекошенную
+автоматическую модель искажений</translation>
     </message>
     <message>
         <location filename="../app/ui/SettingsDialog.ui" line="4096"/>
         <source>Try to apply additional deskew after dewarp</source>
-        <translation type="unfinished">Дополнительное исправление наклона после распрямления строк, при необходимости</translation>
+        <translation type="unfinished">Дополнительное исправление наклона после
+распрямления строк, при необходимости</translation>
     </message>
     <message>
         <location filename="../app/ui/SettingsDialog.ui" line="4251"/>
         <source>Copy ICC profile from source image</source>
-        <translation type="unfinished">Копировать цветовой профиль ICC из исходного изображения</translation>
+        <translation type="unfinished">Копировать цветовой профиль ICC
+из исходного изображения</translation>
     </message>
     <message>
         <location filename="../app/ui/SettingsDialog.ui" line="4334"/>
@@ -2947,7 +2950,8 @@ You can add new images (for ex. missing pages) after project is created with Ins
     <message>
         <location filename="../app/ui/SettingsDialog.ui" line="356"/>
         <source>Filter existing files in insert new image dialog</source>
-        <translation type="unfinished">Фильтрация использующихся файлов в диалоге вставки новой страницы</translation>
+        <translation type="unfinished">Фильтрация использующихся файлов
+в диалоге вставки новой страницы</translation>
     </message>
     <message>
         <location filename="../app/ui/SettingsDialog.ui" line="681"/>
@@ -2994,7 +2998,8 @@ You can add new images (for ex. missing pages) after project is created with Ins
     <message>
         <location filename="../app/ui/SettingsDialog.ui" line="976"/>
         <source>Display hints under pages if order isn&apos;t natural</source>
-        <translation type="unfinished">Показывать подсказки под страницами, если их порядок изменён</translation>
+        <translation type="unfinished">Показывать подсказки под страницами,
+если их порядок изменён</translation>
     </message>
     <message>
         <location filename="../app/ui/SettingsDialog.ui" line="1026"/>
@@ -3292,7 +3297,8 @@ The Deviant page on this stage is defined as a page which has no alignment.</sou
     <message>
         <location filename="../app/ui/SettingsDialog.ui" line="2885"/>
         <source>Original proportions alignment</source>
-        <translation type="unfinished">Выравнивание пропорционально положению на оригинале</translation>
+        <translation type="unfinished">Выравнивание пропорционально
+положению на оригинале</translation>
     </message>
     <message>
         <location filename="../app/ui/SettingsDialog.ui" line="2944"/>
