@@ -2963,7 +2963,7 @@ The Deviant page on this stage is defined as a page which has no alignment.</str
               <item>
                <widget class="QLabel" name="lblSelectedAlignment">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -2971,7 +2971,7 @@ The Deviant page on this stage is defined as a page which has no alignment.</str
                 <property name="minimumSize">
                  <size>
                   <width>156</width>
-                  <height>0</height>
+                  <height>156</height>
                  </size>
                 </property>
                 <property name="toolTip">
