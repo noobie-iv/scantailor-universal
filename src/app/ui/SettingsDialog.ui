@@ -276,8 +276,30 @@ You can add new images (for ex. missing pages) after project is created with Ins
           <property name="title">
            <string>Options</string>
           </property>
-          <layout class="QFormLayout" name="formLayout">
+          <layout class="QVBoxLayout" name="verticalLayout_97">
+           <item>
+            <layout class="QGridLayout" name="gridLayout_3">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Application language:</string>
+               </property>
+              </widget>
+             </item>
            <item row="0" column="1">
+              <spacer name="horizontalSpacer_19">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="0" column="2" rowspan="2">
             <widget class="QComboBox" name="language">
              <property name="maximumSize">
               <size>
@@ -290,14 +312,63 @@ You can add new images (for ex. missing pages) after project is created with Ins
              </property>
             </widget>
            </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label">
+             <item row="1" column="1" rowspan="2">
+              <spacer name="horizontalSpacer_22">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="lblStyle">
              <property name="text">
-              <string>Application language:</string>
+                <string>Application style:</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="0" colspan="2">
+             <item row="2" column="2">
+              <widget class="QComboBox" name="cbStyle">
+               <property name="sizeAdjustPolicy">
+                <enum>QComboBox::AdjustToContents</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>Application stylesheet:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <spacer name="horizontalSpacer_23">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="3" column="2">
+              <widget class="QComboBox" name="cbStyleSheet">
+               <property name="sizeAdjustPolicy">
+                <enum>QComboBox::AdjustToContents</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
             <widget class="QGroupBox" name="groupBox">
              <property name="title">
               <string>Batch processing</string>
@@ -350,41 +421,13 @@ You can add new images (for ex. missing pages) after project is created with Ins
              </layout>
             </widget>
            </item>
-           <item row="5" column="0">
+           <item>
             <widget class="QCheckBox" name="cbDontUseNativeDlg">
              <property name="text">
               <string>Filter existing files in insert new image dialog</string>
              </property>
              <property name="checked">
               <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="lblStyle">
-             <property name="text">
-              <string>Application style:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QComboBox" name="cbStyle">
-             <property name="sizeAdjustPolicy">
-              <enum>QComboBox::AdjustToContents</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QComboBox" name="cbStyleSheet">
-             <property name="sizeAdjustPolicy">
-              <enum>QComboBox::AdjustToContents</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_2">
-             <property name="text">
-              <string>Application stylesheet:</string>
              </property>
             </widget>
            </item>
