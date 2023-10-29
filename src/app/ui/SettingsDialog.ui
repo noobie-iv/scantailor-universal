@@ -809,22 +809,7 @@ This option allows to increase page view panel size to almost a whole applicatio
            </item>
            <item>
             <widget class="QWidget" name="widget_2" native="true">
-             <layout class="QFormLayout" name="formLayout_7">
-              <property name="verticalSpacing">
-               <number>0</number>
-              </property>
-              <property name="leftMargin">
-               <number>0</number>
-              </property>
-              <property name="topMargin">
-               <number>0</number>
-              </property>
-              <property name="rightMargin">
-               <number>0</number>
-              </property>
-              <property name="bottomMargin">
-               <number>0</number>
-              </property>
+             <layout class="QGridLayout" name="gridLayout_4">
               <item row="0" column="0">
                <widget class="QLabel" name="lblThumbsCacheSize">
                 <property name="text">
