@@ -2,6 +2,7 @@
 
 /** Borders - Base **/
 
+NewOpenProjectPanel > QWidget,
 QComboBox,
 QDoubleSpinBox,
 QGroupBox,
@@ -93,6 +94,7 @@ QTreeView:item:!first:selected
 
 /* Colors - Borders - Base */
 
+NewOpenProjectPanel > QWidget,
 QComboBox,
 QDoubleSpinBox,
 QLineEdit,
