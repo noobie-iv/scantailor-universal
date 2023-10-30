@@ -1655,3 +1655,8 @@ QDoubleSpinBox::down-arrow:off
 {
    border-image: url("@path_to_pics@/BreezeDark/down_arrow_disabled.svg");
 }
+
+RelinkingDialog QListView::item
+{
+    margin-right: 1.8em;
+}

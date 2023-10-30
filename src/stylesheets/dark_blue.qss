@@ -668,6 +668,11 @@ QScrollBar:handle:vertical
     margin: 1em 0.2em 1em 0.2em;
 }
 
+RelinkingDialog QListView::item
+{
+    margin-right: 1.5em;
+}
+
 /*** Paddings ***/
 
 QComboBox,

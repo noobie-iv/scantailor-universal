@@ -1661,3 +1661,7 @@ QPushButton:pressed
     color: #31363B;
 }
 
+RelinkingDialog QListView::item
+{
+    margin-right: 1.8em;
+}
