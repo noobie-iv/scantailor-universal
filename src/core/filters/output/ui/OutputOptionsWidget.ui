@@ -75,30 +75,30 @@
      <property name="minimumSize">
       <size>
        <width>0</width>
-       <height>168</height>
+       <height>177</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
        <width>16777215</width>
-       <height>168</height>
+       <height>177</height>
       </size>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_6">
       <property name="spacing">
-       <number>3</number>
+       <number>6</number>
       </property>
       <property name="leftMargin">
        <number>0</number>
       </property>
       <property name="topMargin">
-       <number>3</number>
+       <number>0</number>
       </property>
       <property name="rightMargin">
        <number>0</number>
       </property>
       <property name="bottomMargin">
-       <number>3</number>
+       <number>0</number>
       </property>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -141,7 +141,7 @@
        <widget class="QWidget" name="illuminationPanel" native="true">
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <property name="spacing">
-          <number>0</number>
+          <number>3</number>
          </property>
          <property name="leftMargin">
           <number>6</number>
@@ -176,7 +176,7 @@
        <widget class="QWidget" name="layersPanel" native="true">
         <layout class="QVBoxLayout" name="verticalLayout_111">
          <property name="spacing">
-          <number>0</number>
+          <number>3</number>
          </property>
          <property name="leftMargin">
           <number>6</number>
@@ -282,13 +282,13 @@
      <property name="minimumSize">
       <size>
        <width>0</width>
-       <height>164</height>
+       <height>177</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
        <width>16777215</width>
-       <height>164</height>
+       <height>177</height>
       </size>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -311,13 +311,13 @@
        <widget class="QWidget" name="bwOptions" native="true">
         <layout class="QVBoxLayout" name="verticalLayout">
          <property name="spacing">
-          <number>3</number>
+          <number>6</number>
          </property>
          <property name="leftMargin">
           <number>0</number>
          </property>
          <property name="topMargin">
-          <number>3</number>
+          <number>0</number>
          </property>
          <property name="rightMargin">
           <number>0</number>
@@ -522,13 +522,13 @@
     <widget class="QWidget" name="bwForegroundOptions" native="true">
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <property name="spacing">
-       <number>3</number>
+       <number>6</number>
       </property>
       <property name="leftMargin">
        <number>0</number>
       </property>
       <property name="topMargin">
-       <number>3</number>
+       <number>0</number>
       </property>
       <property name="rightMargin">
        <number>0</number>
@@ -680,19 +680,19 @@
     <widget class="QWidget" name="depthPerceptionPanel" native="true">
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <property name="spacing">
-       <number>3</number>
+       <number>6</number>
       </property>
       <property name="leftMargin">
        <number>0</number>
       </property>
       <property name="topMargin">
-       <number>3</number>
+       <number>0</number>
       </property>
       <property name="rightMargin">
        <number>0</number>
       </property>
       <property name="bottomMargin">
-       <number>3</number>
+       <number>0</number>
       </property>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -865,7 +865,7 @@
     <widget class="QWidget" name="despecklingPanel" native="true">
      <layout class="QVBoxLayout" name="verticalLayout_5">
       <property name="spacing">
-       <number>0</number>
+       <number>6</number>
       </property>
       <property name="leftMargin">
        <number>0</number>
