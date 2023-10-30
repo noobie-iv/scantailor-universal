@@ -49,15 +49,9 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="dpiValue">
-       <property name="font">
-        <font>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
+      <widget class="QPushButton" name="dpiValue">
        <property name="text">
-        <string notr="true">value</string>
+        <string>value</string>
        </property>
       </widget>
      </item>
@@ -135,21 +129,9 @@
          </spacer>
         </item>
         <item>
-         <widget class="QLabel" name="modeValue">
-          <property name="font">
-           <font>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="contextMenuPolicy">
-           <enum>Qt::NoContextMenu</enum>
-          </property>
+         <widget class="QPushButton" name="modeValue">
           <property name="text">
-           <string notr="true">value</string>
-          </property>
-          <property name="textFormat">
-           <enum>Qt::RichText</enum>
+           <string>value</string>
           </property>
          </widget>
         </item>
@@ -264,20 +246,9 @@
          </spacer>
         </item>
         <item>
-         <widget class="QLabel" name="applyColorsButton">
-          <property name="font">
-           <font>
-            <italic>true</italic>
-           </font>
-          </property>
-          <property name="contextMenuPolicy">
-           <enum>Qt::NoContextMenu</enum>
-          </property>
+         <widget class="QPushButton" name="applyColorsButton">
           <property name="text">
-           <string>&lt;a href=&quot;#&quot;&gt;Apply To...&lt;/a&gt;</string>
-          </property>
-          <property name="textFormat">
-           <enum>Qt::RichText</enum>
+           <string>Apply To...</string>
           </property>
          </widget>
         </item>
@@ -513,20 +484,9 @@
             </spacer>
            </item>
            <item>
-            <widget class="QLabel" name="applyThresholdButton">
-             <property name="font">
-              <font>
-               <italic>true</italic>
-              </font>
-             </property>
-             <property name="contextMenuPolicy">
-              <enum>Qt::NoContextMenu</enum>
-             </property>
+            <widget class="QPushButton" name="applyThresholdButton">
              <property name="text">
-              <string>&lt;a href=&quot;#&quot;&gt;Apply To...&lt;/a&gt;</string>
-             </property>
-             <property name="textFormat">
-              <enum>Qt::RichText</enum>
+              <string>Apply To...</string>
              </property>
             </widget>
            </item>
@@ -685,20 +645,9 @@
          </spacer>
         </item>
         <item>
-         <widget class="QLabel" name="applyForegroundThresholdButton">
-          <property name="font">
-           <font>
-            <italic>true</italic>
-           </font>
-          </property>
-          <property name="contextMenuPolicy">
-           <enum>Qt::NoContextMenu</enum>
-          </property>
+         <widget class="QPushButton" name="applyForegroundThresholdButton">
           <property name="text">
-           <string>&lt;a href=&quot;#&quot;&gt;Apply To...&lt;/a&gt;</string>
-          </property>
-          <property name="textFormat">
-           <enum>Qt::RichText</enum>
+           <string>Apply To...</string>
           </property>
          </widget>
         </item>
@@ -830,20 +779,9 @@
          </spacer>
         </item>
         <item>
-         <widget class="QLabel" name="applyDepthPerception">
-          <property name="font">
-           <font>
-            <italic>true</italic>
-           </font>
-          </property>
-          <property name="contextMenuPolicy">
-           <enum>Qt::NoContextMenu</enum>
-          </property>
+         <widget class="QPushButton" name="applyDepthPerception">
           <property name="text">
-           <string>&lt;a href=&quot;#&quot;&gt;Apply To...&lt;/a&gt;</string>
-          </property>
-          <property name="textFormat">
-           <enum>Qt::RichText</enum>
+           <string>Apply To...</string>
           </property>
          </widget>
         </item>
@@ -908,21 +846,9 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="dewarpingStatusLabel">
-       <property name="font">
-        <font>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="contextMenuPolicy">
-        <enum>Qt::NoContextMenu</enum>
-       </property>
+      <widget class="QPushButton" name="dewarpingStatusButton">
        <property name="text">
-        <string notr="true">value</string>
-       </property>
-       <property name="textFormat">
-        <enum>Qt::RichText</enum>
+        <string>value</string>
        </property>
       </widget>
      </item>
@@ -1148,20 +1074,9 @@
          </spacer>
         </item>
         <item>
-         <widget class="QLabel" name="applyDespeckleButton">
-          <property name="font">
-           <font>
-            <italic>true</italic>
-           </font>
-          </property>
-          <property name="contextMenuPolicy">
-           <enum>Qt::NoContextMenu</enum>
-          </property>
+         <widget class="QPushButton" name="applyDespeckleButton">
           <property name="text">
-           <string>&lt;a href=&quot;#&quot;&gt;Apply To...&lt;/a&gt;</string>
-          </property>
-          <property name="textFormat">
-           <enum>Qt::RichText</enum>
+           <string>Apply To...</string>
           </property>
          </widget>
         </item>

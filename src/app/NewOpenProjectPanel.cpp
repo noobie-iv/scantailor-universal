@@ -45,12 +45,6 @@ NewOpenProjectPanel::NewOpenProjectPanel(QWidget* parent)
     setupUi(this);
 
     recentProjectsGroup->setLayout(new QVBoxLayout);
-    newProjectLabel->setText(
-        Utils::richTextForLink(newProjectLabel->text())
-    );
-    openProjectLabel->setText(
-        Utils::richTextForLink(openProjectLabel->text())
-    );
 
     RecentProjects rp;
     rp.read();
@@ -68,11 +62,11 @@ NewOpenProjectPanel::NewOpenProjectPanel(QWidget* parent)
     }
 
     connect(
-        newProjectLabel, SIGNAL(linkActivated(QString)),
+        newProjectButton, SIGNAL(clicked(bool)),
         this, SIGNAL(newProject())
     );
     connect(
-        openProjectLabel, SIGNAL(linkActivated(QString)),
+        openProjectButton, SIGNAL(clicked(bool)),
         this, SIGNAL(openProject())
     );
 }
