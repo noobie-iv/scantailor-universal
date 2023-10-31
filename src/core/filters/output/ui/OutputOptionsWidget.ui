@@ -1182,6 +1182,32 @@
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>dpiValue</tabstop>
+  <tabstop>modeValue</tabstop>
+  <tabstop>whiteMarginsCB</tabstop>
+  <tabstop>equalizeIlluminationCB</tabstop>
+  <tabstop>autoLayerCB</tabstop>
+  <tabstop>pictureZonesLayerCB</tabstop>
+  <tabstop>foregroundLayerCB</tabstop>
+  <tabstop>applyColorsButton</tabstop>
+  <tabstop>thresholdMethodSelector</tabstop>
+  <tabstop>thresholdSlider</tabstop>
+  <tabstop>thresholdWindowSize</tabstop>
+  <tabstop>thresholdCoef</tabstop>
+  <tabstop>applyThresholdButton</tabstop>
+  <tabstop>thresholdForegroundSlider</tabstop>
+  <tabstop>applyForegroundThresholdButton</tabstop>
+  <tabstop>depthPerceptionSlider</tabstop>
+  <tabstop>applyDepthPerception</tabstop>
+  <tabstop>dewarpingStatusButton</tabstop>
+  <tabstop>despeckleOffBtn</tabstop>
+  <tabstop>despeckleCautiousBtn</tabstop>
+  <tabstop>despeckleNormalBtn</tabstop>
+  <tabstop>despeckleAggressiveBtn</tabstop>
+  <tabstop>applyDespeckleButton</tabstop>
+  <tabstop>despeckleSlider</tabstop>
+ </tabstops>
  <resources>
   <include location="../../../../app/resources/resources.qrc"/>
  </resources>

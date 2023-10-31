@@ -146,6 +146,15 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>undefinedDpiView</tabstop>
+  <tabstop>dpiCombo</tabstop>
+  <tabstop>xDpi</tabstop>
+  <tabstop>yDpi</tabstop>
+  <tabstop>applyBtn</tabstop>
+  <tabstop>allPagesView</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
