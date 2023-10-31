@@ -34,7 +34,10 @@ IF(DEBUG_CLI)
         ADD_DEFINITIONS(-DDEBUG_CLI)
 ENDIF(DEBUG_CLI)
 
-ENABLE_TESTING()
+OPTION(ENABLE_TESTS "Enable testing. For debug purpose only. Do not enable if you are not a programmer." OFF)
+IF(ENABLE_TESTS)
+        ENABLE_TESTING()
+ENDIF()
 
 # An undocumented side-effect of CONFIGURE_FILE() is that it makes
 # the whole project depend on the file we are parsing / copying.
@@ -157,10 +160,13 @@ ADD_DEFINITIONS(-DBOOST_MULTI_INDEX_DISABLE_SERIALIZATION)
 ADD_DEFINITIONS(-DBOOST_BIND_GLOBAL_PLACEHOLDERS)
 
 SET(Boost_USE_MULTITHREADED ON)
-FIND_PACKAGE(Boost 1.35.0 COMPONENTS unit_test_framework prg_exec_monitor REQUIRED)
+IF(ENABLE_TESTS)
+        FIND_PACKAGE(Boost 1.35.0 COMPONENTS unit_test_framework prg_exec_monitor REQUIRED)
+ELSE()
+        FIND_PACKAGE(Boost 1.35.0 REQUIRED)
+ENDIF()
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
-
 
 find_package(OpenMP)
 if (OPENMP_FOUND)
