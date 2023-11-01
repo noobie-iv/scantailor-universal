@@ -9,6 +9,7 @@ QGroupBox,
 QLineEdit,
 QListView,
 QPushButton,
+QSlider:handle,
 QSpinBox,
 QTableView,
 QToolButton,
@@ -19,7 +20,6 @@ QTreeView
     border-radius: 2px;
 }
 
-QSlider:handle,
 QTabBar:tab
 {
     border-style: solid;
@@ -49,6 +49,11 @@ QScrollBar:handle
     border-radius: 0.2em;
 }
 
+QSlider::groove
+{
+    border-radius: 0.12em;
+}
+
 /** Borders - Focus **/
 
 QComboBox QListView,
@@ -57,6 +62,7 @@ QComboBox:open,
 QDoubleSpinBox:focus,
 QLineEdit:focus,
 QPushButton:focus,
+QSlider::handle:focus,
 QSpinBox:focus,
 QToolButton:focus
 {
@@ -128,6 +134,7 @@ QSpinBox:disabled
 }
 
 QPushButton:disabled,
+QSlider:handle:disabled,
 QToolButton:disabled
 {
     border-color: #7F7F7F;
@@ -141,6 +148,7 @@ QComboBox:open,
 QDoubleSpinBox:focus,
 QLineEdit:focus,
 QPushButton:focus,
+QSlider::handle:focus,
 QSpinBox:focus,
 QToolButton:focus
 {
@@ -154,6 +162,7 @@ QDoubleSpinBox:hover,
 QLineEdit:hover,
 QListView:item:hover,
 QPushButton:hover,
+QSlider::handle:hover,
 QSpinBox:hover,
 QTabBar:tab:!selected:hover,
 QTableView:item:hover,
@@ -203,20 +212,17 @@ QStatusBar:item
 
 QPushButton,
 QScrollBar,
+QSlider:handle,
 QTabBar:tab,
 QToolButton
 {
     background-color: #505050;
 }
 
-QScrollBar:handle
+QScrollBar:handle,
+QSlider::groove
 {
     background-color: #C9C9C9;
-}
-
-QSlider:handle  
-{
-    background-color: #40A0F0;
 }
 
 QTableView,
@@ -245,9 +251,15 @@ QScrollBar:handle:disabled
 }
 
 QPushButton:disabled,
+QSlider:handle:disabled,
 QToolButton:disabled
 {
     color: #7F7F7F;
+}
+
+QSlider:groove:disabled
+{
+    background-color: #7F7F7F;
 }
 
 /* Colors - Widgets - Focus */
@@ -262,6 +274,11 @@ QToolButton:focus
     color: #FFFFFF;
 }
 
+QSlider:groove:focus
+{
+    background-color: #40A0F0;
+}
+
 /* Colors - Widgets - Hover */
 
 QCheckBox:hover,
@@ -272,6 +289,7 @@ QRadioButton:hover
 }
 
 QScrollBar:handle:hover,
+QSlider:groove:hover,
 QTreeView:branch:closed:has-children:hover,
 QTreeView:branch:open:has-children:hover
 {
@@ -668,6 +686,16 @@ QScrollBar:handle:vertical
     margin: 1em 0.2em 1em 0.2em;
 }
 
+QSlider::handle:horizontal
+{
+    margin: -0.4em 0 -0.4em 0;
+}    
+
+QSlider::handle:vertical
+{
+    margin: 0 -0.4em 0 -0.4em;
+}
+
 RelinkingDialog QListView::item
 {
     margin-right: 1.5em;
@@ -720,6 +748,12 @@ QGroupBox:title
 
 /*** Sizes ***/
 
+QSlider::handle
+{
+    width: 1em;
+    height: 1em;
+}
+
 QScrollBar:horizontal 
 {
     height: 1em;
@@ -728,6 +762,15 @@ QScrollBar:horizontal
 QScrollBar:vertical
 {
     width: 1em;
+}
+
+QSlider::groove:horizontal
+{
+    height: 0.3em;
+}
+QSlider::groove:vertical
+{
+    width: 0.3em;
 }
 
 QScrollBar:handle:vertical
