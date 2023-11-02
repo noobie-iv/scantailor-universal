@@ -2111,6 +2111,11 @@ OutputGenerator::binarize(QImage const& image, BinaryImage const& mask, const in
             binarized = binarizeEdgeDiv(image, window_size, threshold_coef, threshold_coef, threshold_delta);
             break;
         }
+        case MSCALE:
+        {
+            binarized = binarizeMScale(image, window_size, threshold_coef, threshold_delta);
+            break;
+        }
         }
 
     }
