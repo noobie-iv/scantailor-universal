@@ -67,6 +67,23 @@ BinaryImage binarizeNiblack(
     double k = 0.20, int delta = 0);
 
 /**
+ * \brief Image binarization using Gatos' local thresholding method.
+ *
+ * This implementation doesn't include the post-processing steps from
+ * the above paper.
+ *
+ * Gatos, Basilios, Ioannis Pratikakis, and Stavros J. Perantonis.
+ * "An adaptive binarization technique for low quality historical documents."
+ * Document Analysis Systems VI. Springer Berlin Heidelberg, 2004. 102-113. 
+ */
+BinaryImage binarizeGatosCleaner(
+    GrayImage& wiener, BinaryImage const& niblack,
+    QSize const window_size);
+BinaryImage binarizeGatos(
+    QImage const& src, QSize window_size,
+    double noise_sigma = 3.0, double k = 0.2, int delta = 0);
+
+/**
  * \brief Image binarization using Sauvola's local thresholding method.
  *
  * Sauvola, J. and M. Pietikainen. 2000. "Adaptive document image binarization".
