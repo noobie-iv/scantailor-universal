@@ -27,6 +27,7 @@ namespace imageproc
 {
 
 class BinaryImage;
+class GrayImage;
 
 /**
  * \brief Image binarization using Otsu's global thresholding method.
@@ -52,6 +53,18 @@ BinaryImage binarizeOtsu(QImage const& src, int delta = 0);
 BinaryImage binarizeMokji(
     QImage const& src, unsigned max_edge_width = 3,
     unsigned min_edge_magnitude = 20);
+
+/**
+  * \brief Image binarization using Niblack's local thresholding method.
+  *
+  * Niblack, Wayne. An introduction to digital image processing.
+  * Englewood Cliffs, N. J., Prentice Hall (1986) 115-116 
+  */
+GrayImage binarizeNiblackMap(
+    GrayImage const& src, QSize window_size, double k = 0.20);
+BinaryImage binarizeNiblack(
+    QImage const& src, QSize window_size,
+    double k = 0.20, int delta = 0);
 
 /**
  * \brief Image binarization using Sauvola's local thresholding method.

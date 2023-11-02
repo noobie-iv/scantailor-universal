@@ -20,6 +20,7 @@
 #include "BinaryImage.h"
 #include "BinaryThreshold.h"
 #include "Grayscale.h"
+#include "GrayImage.h"
 #include "IntegralImage.h"
 #include <QImage>
 #include <QRect>
@@ -50,6 +51,163 @@ BinaryImage binarizeMokji(
         )
     );
     return BinaryImage(src, threshold);
+}
+
+static inline void binarySetBW(uint32_t* bw_line, unsigned int x, bool black)
+{
+    static uint32_t const msb = uint32_t(1) << 31;
+    uint32_t const mask = msb >> (x & 31);
+    if (black)
+    {
+        // black
+        bw_line[x >> 5] |= mask;
+    }
+    else
+    {
+        // white
+        bw_line[x >> 5] &= ~mask;
+    }
+}
+
+BinaryImage binarizeFromMap(GrayImage const& src, GrayImage const& threshold,
+    unsigned char const lower_bound, unsigned char const upper_bound, int const delta)
+{
+    if (src.isNull() || threshold.isNull())
+    {
+        return BinaryImage();
+    }
+
+    unsigned int const w = src.width();
+    unsigned int const h = src.height();
+    unsigned int const wt = threshold.width();
+    unsigned int const ht = threshold.height();
+
+    if ((w != wt) || (h != ht))
+    {
+        return BinaryImage();
+    }
+
+    uint8_t const* src_line = src.data();
+    unsigned int const src_bpl = src.stride();
+    uint8_t const* threshold_line = threshold.data();
+    unsigned int const threshold_bpl = threshold.stride();
+
+    BinaryImage bw_img(w, h);
+    uint32_t* bw_line = bw_img.data();
+    unsigned int const bw_wpl = bw_img.wordsPerLine();
+
+    for (unsigned int y = 0; y < h; ++y)
+    {
+        for (unsigned int x = 0; x < w; ++x)
+        {
+            binarySetBW(bw_line, x, (src_line[x] < lower_bound || (src_line[x] <= upper_bound && ((int)src_line[x] < ((int)threshold_line[x] + delta)))));
+        }
+        src_line += src_bpl;
+        threshold_line += threshold_bpl;
+        bw_line += bw_wpl;
+    }
+
+    return bw_img;
+}
+
+GrayImage binarizeNiblackMap(
+    GrayImage const& src, QSize const window_size, double const k)
+{
+    if (window_size.isEmpty())
+    {
+        throw std::invalid_argument("binarizeNiblackMap: invalid window_size");
+    }
+
+    if (src.isNull())
+    {
+        return GrayImage();
+    }
+
+    GrayImage gray = GrayImage(src);
+    int const w = src.width();
+    int const h = src.height();
+    uint8_t const* src_line = src.data();
+    int const src_stride = src.stride();
+    uint8_t* gray_line = gray.data();
+    int const gray_stride = gray.stride();
+
+    IntegralImage<uint32_t> integral_image(w, h);
+    IntegralImage<uint64_t> integral_sqimage(w, h);
+
+    for (int y = 0; y < h; ++y)
+    {
+        integral_image.beginRow();
+        integral_sqimage.beginRow();
+        for (int x = 0; x < w; ++x)
+        {
+            uint32_t const pixel = src_line[x];
+            integral_image.push(pixel);
+            integral_sqimage.push(pixel * pixel);
+        }
+        src_line += src_stride;
+    }
+
+    int const window_lower_half = window_size.height() >> 1;
+    int const window_upper_half = window_size.height() - window_lower_half;
+    int const window_left_half = window_size.width() >> 1;
+    int const window_right_half = window_size.width() - window_left_half;
+
+    src_line = src.data();
+    for (int y = 0; y < h; ++y)
+    {
+        int const top = std::max(0, y - window_lower_half);
+        int const bottom = std::min(h, y + window_upper_half); // exclusive
+
+        for (int x = 0; x < w; ++x)
+        {
+            int const left = std::max(0, x - window_left_half);
+            int const right = std::min(w, x + window_right_half); // exclusive
+            int const area = (bottom - top) * (right - left);
+            assert(area > 0); // because window_size > 0 and w > 0 and h > 0
+
+            QRect const rect(left, top, right - left, bottom - top);
+            double const window_sum = integral_image.sum(rect);
+            double const window_sqsum = integral_sqimage.sum(rect);
+
+            double const r_area = 1.0 / area;
+            double const mean = window_sum * r_area;
+            double const sqmean = window_sqsum * r_area;
+
+            double const variance = sqmean - mean * mean;
+            double const stddev = sqrt(fabs(variance));
+
+            double threshold = mean - k * stddev;
+
+            threshold = (threshold < 0.0) ? 0.0 : ((threshold < 255.0) ? threshold : 255.0);
+            gray_line[x] = (uint8_t) threshold;
+        }
+        src_line += src_stride;
+        gray_line += gray_stride;
+    }
+
+    return gray;
+}
+
+BinaryImage binarizeNiblack(
+    QImage const& src, QSize const window_size,
+    double const k, int const delta)
+{
+    if (window_size.isEmpty())
+    {
+        throw std::invalid_argument("binarizeNiblack: invalid window_size");
+    }
+
+    if (src.isNull())
+    {
+        return BinaryImage();
+    }
+
+    GrayImage gray(src);
+
+    GrayImage threshold_map(binarizeNiblackMap(gray, window_size, k));
+    BinaryImage bw_img(binarizeFromMap(gray, threshold_map, 0, 255, delta));
+
+    return bw_img;
 }
 
 BinaryImage binarizeSauvola(QImage const& src, QSize const window_size, double const k, int const delta)

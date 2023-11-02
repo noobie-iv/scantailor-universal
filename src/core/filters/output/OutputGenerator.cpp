@@ -2066,6 +2066,11 @@ OutputGenerator::binarize(QImage const& image, BinaryImage const& mask, const in
             binarized = BinaryImage(image, adjustThreshold(bw_thresh, adjustment));
             break;
         }
+        case NIBLACK:
+        {
+            binarized = binarizeNiblack(image, window_size, threshold_coef, threshold_delta);
+            break;
+        }
         case SAUVOLA:
         {
             binarized = binarizeSauvola(image, window_size, threshold_coef, threshold_delta);
