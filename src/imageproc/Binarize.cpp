@@ -70,6 +70,110 @@ static inline void binarySetBW(uint32_t* bw_line, unsigned int x, bool black)
     }
 }
 
+BinaryImage binarizeMean(QImage const& src, int const delta)
+{
+    if (src.isNull())
+    {
+        return BinaryImage();
+    }
+
+    GrayImage gray(src);
+
+    unsigned int const w = gray.width();
+    unsigned int const h = gray.height();
+    uint8_t const* gray_line = gray.data();
+    unsigned int const gray_bpl = gray.stride();
+    unsigned long int count = 0, countb = 0;
+    double meanl = 0, mean = 0.0, meanw = 0.0, countw = 0.0;
+    double dist, dist_mean = 0, threshold = 128;
+
+    for (unsigned int y = 0; y < h; ++y)
+    {
+        meanl = 0.0;
+        for (unsigned int x = 0; x < w; ++x)
+        {
+            double const pixel = gray_line[x];
+            meanl += pixel;
+            count++;
+        }
+        mean += meanl;
+        gray_line += gray_bpl;
+    }
+    mean = (count > 0) ? (mean / count) : 128.0;
+
+    gray_line = gray.data();
+    for (unsigned int y = 0; y < h; ++y)
+    {
+        meanl = 0.0;
+        for (unsigned int x = 0; x < w; ++x)
+        {
+            double const pixel = gray_line[x];
+            dist = (pixel > mean) ? (pixel - mean) : (mean - pixel);
+            dist++;
+            dist = 256.0 / dist;
+            meanl += (pixel * dist);
+            countw += dist;
+        }
+        meanw += meanl;
+        gray_line += gray_bpl;
+    }
+    meanw = (countw > 0.0) ? (meanw / countw) : 128.0;
+
+    gray_line = gray.data();
+    for (unsigned int y = 0; y < h; ++y)
+    {
+        meanl = 0.0;
+        for (unsigned int x = 0; x < w; ++x)
+        {
+            double const pixel = gray_line[x];
+            dist = (pixel > meanw) ? (pixel - meanw) : (meanw - pixel);
+            dist *= dist;
+            meanl += dist;
+        }
+        dist_mean += meanl;
+        gray_line += gray_bpl;
+    }
+    dist_mean = (count > 0) ? (dist_mean / count) : 64.0 * 64.0;
+    threshold = sqrt(dist_mean);
+
+    gray_line = gray.data();
+    for (unsigned int y = 0; y < h; ++y)
+    {
+        for (unsigned int x = 0; x < w; ++x)
+        {
+            double const pixel = gray_line[x];
+            dist = (pixel > meanw) ? (pixel - meanw) : (meanw - pixel);
+            if (dist < threshold)
+            {
+                // white
+                countb++;
+            }
+        }
+        gray_line += gray_bpl;
+    }
+    countb += countb;
+
+    BinaryImage bw_img(w, h);
+    uint32_t* bw_line = bw_img.data();
+    unsigned int const bw_wpl = bw_img.wordsPerLine();
+
+    gray_line = gray.data();
+    threshold *= (count < countb) ? (1.0 - (double) delta * 0.02) : (1.0 + (double) delta * 0.02);
+    for (unsigned int y = 0; y < h; ++y)
+    {
+        for (unsigned int x = 0; x < w; ++x)
+        {
+            double const pixel = gray_line[x];
+            dist = (pixel > meanw) ? (pixel - meanw) : (meanw - pixel);
+            binarySetBW(bw_line, x, ((dist < threshold) ^ (count < countb)));
+        }
+        gray_line += gray_bpl;
+        bw_line += bw_wpl;
+    }
+
+    return bw_img;
+}  // binarizeMean
+
 BinaryImage binarizeFromMap(GrayImage const& src, GrayImage const& threshold,
     unsigned char const lower_bound, unsigned char const upper_bound, int const delta)
 {
